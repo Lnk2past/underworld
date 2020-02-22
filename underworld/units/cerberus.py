@@ -1,118 +1,120 @@
-class sentinel:
-    def __init__(self):
-        self.hull = 750.0
+from underworld.units.base_unit import base_unit
+from underworld.modules import *
+
+
+class sentinel(base_unit):
+    def __init__(self, name=None):
+        super().__init__()
+        self.name = self.get_class_name() if name is None else name
+        self.hull = self.max_hull = 750.0
+        self.weapon_slot = battery(6)
+        self.shield_slot = None
+        self.support_slots = []
+
+
+class guardian(base_unit):
+    def __init__(self, name=None):
+        super().__init__()
+        self.name = self.get_class_name() if name is None else name
+        self.hull = self.max_hull = 7000.0
+        self.weapon_slot = guardian_battery()
+        self.shield_slot = None
+        self.support_slots = []
+
+
+class interceptor(base_unit):
+    def __init__(self, name=None):
+        super().__init__()
+        self.name = self.get_class_name() if name is None else name
+        self.hull = self.max_hull = 8000.0
+        self.weapon_slot = mass_battery(1)
+        self.shield_slot = None
+        self.support_slots = []
+
+
+class colossus(base_unit):
+    def __init__(self, name=None):
+        super().__init__()
+        self.name = self.get_class_name() if name is None else name
+        self.hull = self.max_hull = 40000.0
+        self.weapon_slot = colossus_laser()
+        self.shield_slot = passive_shield(10)
+        self.support_slots = [salvage(12)]
+        self.support_slots[0].register(self)
+
+
+class destroyer(base_unit):
+    def __init__(self, name=None):
+        super().__init__()
+        self.name = self.get_class_name() if name is None else name
+        self.hull = self.max_hull = 10000.0
         self.shield = 0.0
-
-    @property
-    def total_hitpoints(self):
-        return self.hull + self.shield
+        self.support_slots = []
 
 
-class guardian:
-    def __init__(self):
-        self.hull = 7000.0
-        self.shield = 0.0
-
-    @property
-    def total_hitpoints(self):
-        return self.hull + self.shield
+class bomber(base_unit):
+    def __init__(self, name=None):
+        super().__init__()
+        self.name = self.get_class_name() if name is None else name
+        self.hull = self.max_hull = 48000.0
+        self.support_slots = []
 
 
-class interceptor:
-    def __init__(self):
-        self.hull = 8000.0
-        self.shield = 0.0
-
-    @property
-    def total_hitpoints(self):
-        return self.hull + self.shield
-
-
-class colossus:
-    def __init__(self):
-        self.hull = 40000.0
-        self.shield = 16000.0
-
-    @property
-    def total_hitpoints(self):
-        return self.hull + self.shield
+class phoenix(base_unit):
+    def __init__(self, name=None):
+        super().__init__()
+        self.name = self.get_class_name() if name is None else name
+        self.hull = self.max_hull = 45000.0
+        self.weapon_slot = dual_laser(5)
+        self.shield_slot = phoenix_area_shield()
+        self.support_slots = []
 
 
-class destroyer:
-    def __init__(self):
-        self.hull = 10000.0
-        self.shield = 0.0
-
-    @property
-    def total_hitpoints(self):
-        return self.hull + self.shield
-
-
-class bomber:
-    def __init__(self):
-        self.hull = 48000.0
-        self.shield = 0.0
-
-    @property
-    def total_hitpoints(self):
-        return self.hull + self.shield
+class storm(base_unit):
+    def __init__(self, name=None):
+        super().__init__()
+        self.name = self.get_class_name() if name is None else name
+        self.hull = self.max_hull = 40000.0
+        self.weapon_slot = dart_barrage()
+        self.shield_slot = None
+        self.support_slots = []
 
 
-class phoenix:
-    def __init__(self):
-        self.hull = 45000.0
-        self.shield = 22000.0
-
-    @property
-    def total_hitpoints(self):
-        return self.hull + self.shield
-
-
-class storm:
-    def __init__(self):
-        self.hull = 40000.0
-        self.shield = 0.0
-
-    @property
-    def total_hitpoints(self):
-        return self.hull + self.shield
+class ghost(base_unit):
+    def __init__(self, name=None):
+        super().__init__()
+        self.name = self.get_class_name() if name is None else name
+        self.hull = self.max_hull = 200.0
+        self.weapon_slot = ghost_battery()
+        self.shield_slot = None
+        self.support_slots = []
 
 
-class ghost:
-    def __init__(self):
-        self.hull = 200.0
-        self.shield = 0.0
-
-    @property
-    def total_hitpoints(self):
-        return self.hull + self.shield
-
-
-class weak_cerberus_base:
-    def __init__(self):
-        self.hull = 20000.0
-        self.shield = 20000.0
-
-    @property
-    def total_hitpoints(self):
-        return self.hull + self.shield
+class weak_cerberus_base(base_unit):
+    def __init__(self, name=None):
+        super().__init__()
+        self.name = self.get_class_name() if name is None else name
+        self.hull = self.max_hull = 20000.0
+        self.weapon_slot = weak_cerberus_base_battery()
+        self.shield_slot = weak_cerberus_base_passive_shield()
+        self.support_slots = []
 
 
-class cerberus_base:
-    def __init__(self):
-        self.hull = 50000.0
-        self.shield = 50000.0
+class cerberus_base(base_unit):
+    def __init__(self, name=None):
+        super().__init__()
+        self.name = self.get_class_name() if name is None else name
+        self.hull = self.max_hull = 50000.0
+        self.weapon_slot = cerberus_base_battery()
+        self.shield_slot = cerberus_base_passive_shield()
+        self.support_slots = []
 
-    @property
-    def total_hitpoints(self):
-        return self.hull + self.shield
 
-
-class strong_cerberus_base:
-    def __init__(self):
-        self.hull = 90000.0
-        self.shield = 90000.0
-
-    @property
-    def total_hitpoints(self):
-        return self.hull + self.shield
+class strong_cerberus_base(base_unit):
+    def __init__(self, name=None):
+        super().__init__()
+        self.name = self.get_class_name() if name is None else name
+        self.hull = self.max_hull = 90000.0
+        self.weapon_slot = strong_cerberus_base_battery()
+        self.shield_slot = strong_cerberus_base_passive_shield()
+        self.support_slots = []
