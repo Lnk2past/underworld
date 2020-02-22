@@ -9,7 +9,7 @@ class event_manager:
         self.subscriptions[topic].append(callback)
 
     def notify(self, time, topic, payload=None):
-        print(f'EVENT: time={time:.1f}, topic={topic}, payload={payload}')
+        print(f'EVENT: time={time:05.1f}, topic={topic}, payload={payload}')
         for callback in self.subscriptions[topic]:
             callback(payload)
 
