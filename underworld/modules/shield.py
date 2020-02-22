@@ -12,7 +12,6 @@ class shield_module():
 class activated_shield_module(shield_module, activated_module):
     def activate(self):
         if super().activate():
-            print('Omega activated')
             self.strength = self.max_strength
 
 
