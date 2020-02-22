@@ -6,6 +6,12 @@ def simulate_battle(battle_sector, team1, team2):
     time = 0.0
     dt = 0.2
 
+    for u in team1:
+        u.team = team1
+
+    for u in team2:
+        u.team = team2
+
     def remove_unit(payload):
         if payload.get('unit', None) in team1:
             team1.remove(payload['unit'])

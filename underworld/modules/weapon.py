@@ -11,8 +11,7 @@ class weapon_module:
 
 
 class weak_battery(weapon_module):
-    def __init__(self):
-        super().__init__(level)
+    def __init__(self, *_):
         self.level = 1
         self.damage = self.max_damage = 80
         self.max_targets = 1

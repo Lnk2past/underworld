@@ -1,3 +1,4 @@
+from underworld.event_manager.event_manager import global_event_manager
 from underworld.units.base_unit import base_unit
 from underworld.modules import *
 
@@ -68,7 +69,15 @@ class phoenix(base_unit):
         self.weapon_slot = dual_laser(5)
         self.shield_slot = phoenix_area_shield()
         self.support_slots = []
+        # self.trigger_on(lambda s: s.hull <= 0, lambda s: s.team.extend([sentinel(), sentinel(), sentinel()]))
+        global_event_manager.register('sector_death', self.spawn_sentinels)
 
+    def spawn_sentinels(self, payload):
+        if payload.get('unit', None) is self:
+            for i in range(3):
+                s = sentinel()
+                s.time = self.time
+                self.team.append(s)
 
 class storm(base_unit):
     def __init__(self, name=None):

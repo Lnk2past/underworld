@@ -8,10 +8,18 @@ class base_unit:
         return cls.__name__
 
     def __init__(self):
+        self.team = None
         self.queued_damage = 0.0
         self.time = 0.0
         self.targets = {}
         self.targeted_by = []
+        self.triggers = {}
+
+    def __repr__(self):
+        return str(self)
+
+    def __str__(self):
+        return f'{self.get_class_name()}::{self.name}'
 
     @property
     def weapon(self):
@@ -44,6 +52,10 @@ class base_unit:
             dps = self.weapon_slot.dps_after_time(self.targets[t])
             t.queue_damage(dps * dt)
             self.targets[t] += dt
+        for condition in self.triggers:
+            if condition(self):
+                for callback in self.triggers[condition]:
+                    callback(self)
 
     def queue_damage(self, damage):
         self.queued_damage += damage
@@ -64,3 +76,8 @@ class base_unit:
     def untarget(self, payload):
         if payload.get('unit', None) in self.targets:
             del self.targets[payload['unit']]
+
+    def trigger_on(self, condition, callback):
+        if condition not in self.triggers:
+            self.triggers[condition] = []
+        self.triggers[condition].append(callback)
