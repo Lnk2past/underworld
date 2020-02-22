@@ -184,7 +184,7 @@ class area_shield(activated_shield_module):
         self.range = 160
 
 
-class phoenix_area_shield(activated_shield_module):
+class phoenix_area_shield(passive_shield_module):
     def __init__(self):
         self.strength = self.max_strength = 22000
 
