@@ -1,19 +1,45 @@
 from underworld.event_manager.event_manager import global_event_manager
+from underworld.modules import *
 
 
-class support_module:
+class support_module():
+    pass
+
+
+class activated_support_module(support_module, activated_module):
+    pass
+
+
+class passive_support_module(support_module, passive_module):
+    pass
+
+
+class emp(activated_support_module):
     def __init__(self, level):
-        if level < 1 or level > 12:
-            raise RuntimeError(f'Module {level} needs to be between 1 and 12!')
+        self.set_level(level)
+
+    def set_level(self, level):
+        super().set_level(level)
+        if level == 1:  self.duration, self.hydrogen = [30,   40.0]
+        if level == 2:  self.duration, self.hydrogen = [33,   80.0]
+        if level == 3:  self.duration, self.hydrogen = [36,  150.0]
+        if level == 4:  self.duration, self.hydrogen = [38,  250.0]
+        if level == 5:  self.duration, self.hydrogen = [40,  400.0]
+        if level == 6:  self.duration, self.hydrogen = [42,  600.0]
+        if level == 7:  self.duration, self.hydrogen = [44,  800.0]
+        if level == 8:  self.duration, self.hydrogen = [46, 1000.0]
+        if level == 9:  self.duration, self.hydrogen = [48, 1250.0]
+        if level == 10: self.duration, self.hydrogen = [50, 1500.0]
+        if level == 11: self.duration, self.hydrogen = [52, 1750.0]
+        if level == 12: self.duration, self.hydrogen = [54, 2000.0]
 
 
-class emp(support_module):
+class teleport(activated_support_module):
     def __init__(self, level):
-        super().__init__(level)
-        self._set_level(level)
-        self.is_activated = True
+        self.set_level(level)
 
-    def _set_level(self, level):
+    def set_level(self, level):
+        super().set_level(level)
         if level == 1:  self.duration, self.hydrogen = [30,    40.0]
         if level == 2:  self.duration, self.hydrogen = [33,    80.0]
         if level == 3:  self.duration, self.hydrogen = [36,   150.0]
@@ -27,148 +53,68 @@ class emp(support_module):
         if level == 11: self.duration, self.hydrogen = [52,  1750.0]
         if level == 12: self.duration, self.hydrogen = [54,  2000.0]
 
-    def activate(self, ships):
-        pass
-        # for s in ships:
-        #     s.apply_status('emp')
 
-class teleport(support_module):
+class red_star_life_extender(activated_support_module):
     def __init__(self, level):
-        super().__init__(level)
-        self._set_level(level)
-        self.is_activated = True
+        self.set_level(level)
 
 
-    def _set_level(self, level):
-        if level == 1:  self.duration, self.hydrogen = [30,    40.0]
-        if level == 2:  self.duration, self.hydrogen = [33,    80.0]
-        if level == 3:  self.duration, self.hydrogen = [36,   150.0]
-        if level == 4:  self.duration, self.hydrogen = [38,   250.0]
-        if level == 5:  self.duration, self.hydrogen = [40,   400.0]
-        if level == 6:  self.duration, self.hydrogen = [42,   600.0]
-        if level == 7:  self.duration, self.hydrogen = [44,   800.0]
-        if level == 8:  self.duration, self.hydrogen = [46,  1000.0]
-        if level == 9:  self.duration, self.hydrogen = [48,  1250.0]
-        if level == 10: self.duration, self.hydrogen = [50,  1500.0]
-        if level == 11: self.duration, self.hydrogen = [52,  1750.0]
-        if level == 12: self.duration, self.hydrogen = [54,  2000.0]
-
-
-class red_star_life_extender(support_module):
+class remote_repair(activated_support_module):
     def __init__(self, level):
-        super().__init__(level)
-        self._set_level(level)
-        self.is_activated = True
+        self.set_level(level)
 
 
-    def _set_level(self, level):
-        pass
 
-
-class remote_repair(support_module):
+class time_warp(activated_support_module):
     def __init__(self, level):
-        super().__init__(level)
-        self._set_level(level)
-        self.is_activated = True
-
-
-    def _set_level(self, level):
-        pass
+        self.set_level(level)
 
 
 
-class time_warp(support_module):
+class unity(activated_support_module):
     def __init__(self, level):
-        super().__init__(level)
-        self._set_level(level)
-        self.is_activated = True
-
-
-    def _set_level(self, level):
-        pass
+        self.set_level(level)
 
 
 
-class unity(support_module):
+class sanctuary(passive_support_module):
     def __init__(self, level):
-        super().__init__(level)
-        self._set_level(level)
-        self.is_activated = True
-
-
-    def _set_level(self, level):
-        pass
+        self.set_level(level)
 
 
 
-class sanctuary(support_module):
+class stealth(activated_support_module):
     def __init__(self, level):
-        super().__init__(level)
-        self._set_level(level)
-        self.is_activated = True
-
-
-    def _set_level(self, level):
-        pass
+        self.set_level(level)
 
 
 
-class stealth(support_module):
+class fortify(activated_support_module):
     def __init__(self, level):
-        super().__init__(level)
-        self._set_level(level)
-        self.is_activated = True
-
-
-    def _set_level(self, level):
-        pass
+        self.set_level(level)
 
 
 
-class fortify(support_module):
+class impulse(activated_support_module):
     def __init__(self, level):
-        super().__init__(level)
-        self._set_level(level)
-        self.is_activated = True
-
-
-    def _set_level(self, level):
-        pass
+        self.set_level(level)
 
 
 
-class impulse(support_module):
+class alpha_rocket(activated_support_module):
     def __init__(self, level):
-        super().__init__(level)
-        self._set_level(level)
-        self.is_activated = True
-
-
-    def _set_level(self, level):
-        pass
+        self.set_level(level)
 
 
 
-class alpha_rocket(support_module):
+class salvage(passive_support_module):
     def __init__(self, level):
-        super().__init__(level)
-        self._set_level(level)
-        self.is_activated = True
-
-
-    def _set_level(self, level):
-        pass
-
-
-
-class salvage(support_module):
-    def __init__(self, level):
-        super().__init__(level)
-        self._set_level(level)
+        self.set_level(level)
         self.level = level
         self.is_activated = False
 
-    def _set_level(self, level):
+    def set_level(self, level):
+        super().set_level(level)
         if level == 1:  self.repair_percentage, self.hydrogen = [ 0.6,   2.0]
         if level == 2:  self.repair_percentage, self.hydrogen = [ 0.7,   5.0]
         if level == 3:  self.repair_percentage, self.hydrogen = [ 0.8,   8.0]
@@ -191,123 +137,60 @@ class salvage(support_module):
             self.owner.hull = min(self.owner.hull + self.repair_percentage * self.owner.max_hull, self.owner.max_hull)
 
 
-class suppress(support_module):
+class suppress(activated_support_module):
     def __init__(self, level):
-        super().__init__(level)
-        self._set_level(level)
-        self.is_activated = True
-
-
-    def _set_level(self, level):
-        pass
+        self.set_level(level)
 
 
 
-class destiny(support_module):
+class destiny(activated_support_module):
     def __init__(self, level):
-        super().__init__(level)
-        self._set_level(level)
-        self.is_activated = True
-
-
-    def _set_level(self, level):
-        pass
+        self.set_level(level)
 
 
 
-class barrier(support_module):
+class barrier(activated_support_module):
     def __init__(self, level):
-        super().__init__(level)
-        self._set_level(level)
-        self.is_activated = True
-
-
-    def _set_level(self, level):
-        pass
+        self.set_level(level)
 
 
 
-class vengeance(support_module):
+class vengeance(passive_support_module):
     def __init__(self, level):
-        super().__init__(level)
-        self._set_level(level)
-        self.is_activated = True
-
-
-    def _set_level(self, level):
-        pass
+        self.set_level(level)
 
 
 
-class delta_rocket(support_module):
+class delta_rocket(activated_support_module):
     def __init__(self, level):
-        super().__init__(level)
-        self._set_level(level)
-        self.is_activated = True
-
-
-    def _set_level(self, level):
-        pass
+        self.set_level(level)
 
 
 
-class leap(support_module):
+class leap(activated_support_module):
     def __init__(self, level):
-        super().__init__(level)
-        self._set_level(level)
-        self.is_activated = True
-
-
-    def _set_level(self, level):
-        pass
+        self.set_level(level)
 
 
 
-class bond(support_module):
+class bond(activated_support_module):
     def __init__(self, level):
-        super().__init__(level)
-        self._set_level(level)
-        self.is_activated = True
-
-
-    def _set_level(self, level):
-        pass
+        self.set_level(level)
 
 
 
-class alpha_drone(support_module):
+class alpha_drone(activated_support_module):
     def __init__(self, level):
-        super().__init__(level)
-        self._set_level(level)
-        self.is_activated = True
-
-
-    def _set_level(self, level):
-        pass
+        self.set_level(level)
 
 
 
-class suspend(support_module):
+class suspend(activated_support_module):
     def __init__(self, level):
-        super().__init__(level)
-        self._set_level(level)
-        self.is_activated = True
-
-
-    def _set_level(self, level):
-        pass
+        self.set_level(level)
 
 
 
-class omega_rocket(support_module):
+class omega_rocket(activated_support_module):
     def __init__(self, level):
-        super().__init__(level)
-        self._set_level(level)
-        self.is_activated = True
-
-
-    def _set_level(self, level):
-        pass
-
-
-
+        self.set_level(level)

@@ -1,21 +1,26 @@
-class shield_module:
-    def __init__(self, level):
-        if level < 1 or level > 12:
-            raise RuntimeError(f'Module {level} needs to be between 1 and 12!')
+from underworld.event_manager.event_manager import global_event_manager
+from underworld.modules import *
 
+
+class shield_module():
+    pass
+
+
+class activated_shield_module(shield_module, activated_module):
     def activate(self):
+        super().activate()
         self.strength = self.max_strength
 
 
-class alpha_shield(shield_module):
-    def __init__(self, level=1):
+class passive_shield_module(shield_module, passive_module):
+    pass
+
+
+class alpha_shield(activated_shield_module):
+    def set_level(self, level):
         if level < 1 or level > 5:
             raise RuntimeError(f'Module {level} needs to be between 1 and 5!')
         self.level = level
-        self._set_level(level)
-        self.activated = True
-
-    def _set_level(self, level):
         if level ==  1:  self.max_strength, self.hydrogen = [2000, 40.0]
         if level ==  2:  self.max_strength, self.hydrogen = [2300, 50.0]
         if level ==  3:  self.max_strength, self.hydrogen = [2600, 60.0]
@@ -26,14 +31,13 @@ class alpha_shield(shield_module):
         self.cooldown = 300
 
 
-class delta_shield(shield_module):
+class delta_shield(activated_shield_module):
     def __init__(self, level=1):
-        super().__init__(level)
-        self.level = level
-        self._set_level(level)
-        self.activated = True
+        self.set_level(level)
+    
 
-    def _set_level(self, level):
+    def set_level(self, level):
+        super().set_level(level)
         if level ==  1:  self.max_strength, self.speed_increase, self.hydrogen = [3500, 1.06,  150.0]
         if level ==  2:  self.max_strength, self.speed_increase, self.hydrogen = [3800, 1.10,  200.0]
         if level ==  3:  self.max_strength, self.speed_increase, self.hydrogen = [4100, 1.14,  300.0]
@@ -51,16 +55,14 @@ class delta_shield(shield_module):
         self.cooldown = 300
 
 
-class passive_shield(shield_module):
+class passive_shield(passive_shield_module):
     def __init__(self, level=1):
-        super().__init__(level)
-        self.level = level
-        self._set_level(level)
-        self.activated = False
+        self.set_level(level)
 
     def activate(self): pass
 
-    def _set_level(self, level):
+    def set_level(self, level):
+        super().set_level(level)
         if level ==  1:  self.max_strength, self.hydrogen = [ 5000,   6.0]
         if level ==  2:  self.max_strength, self.hydrogen = [ 6000,   8.8]
         if level ==  3:  self.max_strength, self.hydrogen = [ 7000,  12.4]
@@ -76,14 +78,12 @@ class passive_shield(shield_module):
         self.strength = self.max_strength
 
 
-class omega_shield(shield_module):
+class omega_shield(activated_shield_module):
     def __init__(self, level=1):
-        super().__init__(level)
-        self.level = level
-        self._set_level(level)
-        self.activated = True
+        self.set_level(level)
 
-    def _set_level(self, level):
+    def set_level(self, level):
+        super().set_level(level)
         if level ==  1:  self.max_strength, self.hydrogen = [ 8000,  600.0]
         if level ==  2:  self.max_strength, self.hydrogen = [ 9000,  800.0]
         if level ==  3:  self.max_strength, self.hydrogen = [10000, 1000.0]
@@ -101,14 +101,12 @@ class omega_shield(shield_module):
         self.cooldown = 300
 
 
-class mirror_shield(shield_module):
+class mirror_shield(activated_shield_module):
     def __init__(self, level=1):
-        super().__init__(level)
-        self.level = level
-        self._set_level(level)
-        self.activated = True
+        self.set_level(level)
 
-    def _set_level(self, level):
+    def set_level(self, level):
+        super().set_level(level)
         if level ==  1: self.max_strength, self.reflected, self.hydrogen = [ 6500, 0.14,  600.0]
         if level ==  2: self.max_strength, self.reflected, self.hydrogen = [ 7000, 0.16,  800.0]
         if level ==  3: self.max_strength, self.reflected, self.hydrogen = [ 7500, 0.18, 1000.0]
@@ -126,14 +124,12 @@ class mirror_shield(shield_module):
         self.cooldown = 300
 
 
-class blast_shield(shield_module):
+class blast_shield(activated_shield_module):
     def __init__(self, level=1):
-        super().__init__(level)
-        self.level = level
-        self._set_level(level)
-        self.activated = True
+        self.set_level(level)
 
-    def _set_level(self, level):
+    def set_level(self, level):
+        super().set_level(level)
         if level ==  1:  self.max_strength, self.hydrogen = [ 15000,   500.0]
         if level ==  2:  self.max_strength, self.hydrogen = [ 20000,   600.0]
         if level ==  3:  self.max_strength, self.hydrogen = [ 25000,   750.0]
@@ -152,14 +148,12 @@ class blast_shield(shield_module):
         self.range = 140
 
 
-class area_shield(shield_module):
+class area_shield(activated_shield_module):
     def __init__(self, level=1):
-        super().__init__(level)
-        self.level = level
-        self._set_level(level)
-        self.activated = True
+        self.set_level(level)
 
-    def _set_level(self, level):
+    def set_level(self, level):
+        super().set_level(level)
         if level ==  1:  self.max_strength, self.hydrogen = [ 7000,  1000.0]
         if level ==  2:  self.max_strength, self.hydrogen = [ 7500,  1250.0]
         if level ==  3:  self.max_strength, self.hydrogen = [ 8000,  1500.0]
@@ -178,25 +172,21 @@ class area_shield(shield_module):
         self.range = 160
 
 
-class phoenix_area_shield(shield_module):
+class phoenix_area_shield(activated_shield_module):
     def __init__(self):
-        self.level = 1
         self.strength = self.max_strength = 22000
 
 
-class weak_cerberus_base_passive_shield(shield_module):
+class weak_cerberus_base_passive_shield(passive_shield_module):
     def __init__(self):
-        self.level = 1
         self.strength = self.max_strength = 20000
 
 
-class cerberus_base_passive_shield(shield_module):
+class cerberus_base_passive_shield(passive_shield_module):
     def __init__(self):
-        self.level = 1
         self.strength = self.max_strength = 50000
 
 
-class strong_cerberus_base_passive_shield(shield_module):
+class strong_cerberus_base_passive_shield(passive_shield_module):
     def __init__(self):
-        self.level = 1
         self.strength = self.max_strength = 90000

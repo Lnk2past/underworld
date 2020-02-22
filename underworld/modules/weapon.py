@@ -1,8 +1,7 @@
-class weapon_module:
-    def __init__(self, level):
-        if level < 1 or level > 12:
-            raise RuntimeError(f'Module {level} needs to be between 1 and 12!')
+from underworld.event_manager.event_manager import global_event_manager
+from underworld.modules import *
 
+class weapon_module(passive_module):
     def dps_after_time(self, time):
         if time < 45.0:
             r = (self.max_damage - self.damage) / 45.0
@@ -22,11 +21,10 @@ class weak_battery(weapon_module):
 
 class battery(weapon_module):
     def __init__(self, level=1):
-        super().__init__(level)
-        self.level = level
-        self._set_level(level)
+        self.set_level(level)
 
-    def _set_level(self, level):
+    def set_level(self, level):
+        super().set_level(level)
         self.max_targets = 1
         if level == 1:  self.damage, self.hydrogen = [100,  0.4]
         if level == 2:  self.damage, self.hydrogen = [120,  0.8]
@@ -48,11 +46,10 @@ class battery(weapon_module):
 
 class laser(weapon_module):
     def __init__(self, level=1):
-        super().__init__(level)
-        self.level = level
-        self._set_level(level)
+        self.set_level(level)
 
-    def _set_level(self, level):
+    def set_level(self, level):
+        super().set_level(level)
         self.max_targets = 1
         if level == 1:  self.damage, self.max_damage, self.hydrogen = [ 80,  200,  1.0]
         if level == 2:  self.damage, self.max_damage, self.hydrogen = [ 90,  240,  2.0]
@@ -73,11 +70,10 @@ class laser(weapon_module):
 
 class mass_battery(weapon_module):
     def __init__(self, level=1):
-        super().__init__(level)
-        self.level = level
-        self._set_level(level)
+        self.set_level(level)
 
-    def _set_level(self, level):
+    def set_level(self, level):
+        super().set_level(level)
         if level == 1:  self.damage, self.max_targets, self.hydrogen = [ 60, 3,  2.0]
         if level == 2:  self.damage, self.max_targets, self.hydrogen = [ 75, 3,  5.0]
         if level == 3:  self.damage, self.max_targets, self.hydrogen = [ 90, 3,  8.0]
@@ -98,11 +94,10 @@ class mass_battery(weapon_module):
 
 class dual_laser(weapon_module):
     def __init__(self, level=1):
-        super().__init__(level)
-        self.level = level
-        self._set_level(level)
+        self.set_level(level)
 
-    def _set_level(self, level):
+    def set_level(self, level):
+        super().set_level(level)
         self.max_targets = 2
         if level == 1:  self.damage, self.max_damage, self.hydrogen = [ 80, 250,  2.0]
         if level == 2:  self.damage, self.max_damage, self.hydrogen = [ 90, 300,  5.0]
@@ -125,11 +120,10 @@ class dual_laser(weapon_module):
 
 class barrage(weapon_module):
     def __init__(self, level=1):
-        super().__init__(level)
-        self.level = level
-        self._set_level(level)
+        self.set_level(level)
 
-    def _set_level(self, level):
+    def set_level(self, level):
+        super().set_level(level)
         self.max_targets = 1
         if level == 1:  self.damage, self.dmg_per_enemy, self.max_damage, self.hydrogen = [ 80,  60, 1040,  4.0]
         if level == 2:  self.damage, self.dmg_per_enemy, self.max_damage, self.hydrogen = [ 90,  65, 1130,  8.0]
@@ -150,11 +144,10 @@ class barrage(weapon_module):
 
 class dart_launcher(weapon_module):
     def __init__(self, level=1):
-        super().__init__(level)
-        self.level = level
-        self._set_level(level)
+        self.set_level(level)
 
-    def _set_level(self, level):
+    def set_level(self, level):
+        super().set_level(level)
         self.max_targets = 1
         if level == 1:  self.damage, self.hydrogen = [ 4100, 24.0]
         if level == 2:  self.damage, self.hydrogen = [ 4500, 28.0]
@@ -176,7 +169,6 @@ class dart_launcher(weapon_module):
 
 class guardian_battery(weapon_module):
     def __init__(self):
-        self.level = 1
         self.damage = self.max_damage = 60
         self.max_targets = 1
 
@@ -186,7 +178,6 @@ class guardian_battery(weapon_module):
 
 class colossus_laser(weapon_module):
     def __init__(self):
-        self.level = 1
         self.damage = 110
         self.max_damage = 270
         self.max_targets = 1
@@ -197,7 +188,6 @@ class colossus_laser(weapon_module):
 
 class ghost_battery(weapon_module):
     def __init__(self):
-        self.level = 1
         self.damage = self.max_damage = 140
         self.max_targets = 1
 
@@ -207,7 +197,6 @@ class ghost_battery(weapon_module):
 
 class weak_cerberus_base_battery(weapon_module):
     def __init__(self):
-        self.level = 1
         self.damage = self.max_damage = 100
         self.max_targets = 1
 
@@ -217,7 +206,6 @@ class weak_cerberus_base_battery(weapon_module):
 
 class cerberus_base_battery(weapon_module):
     def __init__(self):
-        self.level = 1
         self.damage = self.max_damage = 140
         self.max_targets = 1
 
@@ -227,7 +215,6 @@ class cerberus_base_battery(weapon_module):
 
 class strong_cerberus_base_battery(weapon_module):
     def __init__(self):
-        self.level = 1
         self.damage = self.max_damage = 200
         self.max_targets = 1
 
@@ -237,7 +224,6 @@ class strong_cerberus_base_battery(weapon_module):
 
 class dart_barrage(weapon_module):
     def __init__(self):
-        self.level = 1
         self.damage = self.max_damage = 200
         self.max_targets = 1
 
