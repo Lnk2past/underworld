@@ -2,14 +2,18 @@ from underworld.event_manager.event_manager import global_event_manager
 from underworld.modules import *
 
 
+def set_shield_strenth(self, unit):
+    unit.strength = unit.max_strength
+
 class shield_module():
     pass
 
 
 class activated_shield_module(shield_module, activated_module):
     def activate(self):
-        super().activate()
-        self.strength = self.max_strength
+        if super().activate():
+            print('Omega activated')
+            self.strength = self.max_strength
 
 
 class passive_shield_module(shield_module, passive_module):
@@ -17,6 +21,9 @@ class passive_shield_module(shield_module, passive_module):
 
 
 class alpha_shield(activated_shield_module):
+    def __init__(self, level=1):
+        super().__init__()
+
     def set_level(self, level):
         if level < 1 or level > 5:
             raise RuntimeError(f'Module {level} needs to be between 1 and 5!')
@@ -27,14 +34,15 @@ class alpha_shield(activated_shield_module):
         if level ==  4:  self.max_strength, self.hydrogen = [2900, 70.0]
         if level ==  5:  self.max_strength, self.hydrogen = [3200, 80.0]
         self.strength = 0
-        self.duration = 300
-        self.cooldown = 300
+        self.duration = 300.0
+        self.cooldown = 300.0
 
 
 class delta_shield(activated_shield_module):
     def __init__(self, level=1):
+        super().__init__()
         self.set_level(level)
-    
+
 
     def set_level(self, level):
         super().set_level(level)
@@ -57,6 +65,7 @@ class delta_shield(activated_shield_module):
 
 class passive_shield(passive_shield_module):
     def __init__(self, level=1):
+        super().__init__()
         self.set_level(level)
 
     def activate(self): pass
@@ -80,6 +89,7 @@ class passive_shield(passive_shield_module):
 
 class omega_shield(activated_shield_module):
     def __init__(self, level=1):
+        super().__init__()
         self.set_level(level)
 
     def set_level(self, level):
@@ -103,6 +113,7 @@ class omega_shield(activated_shield_module):
 
 class mirror_shield(activated_shield_module):
     def __init__(self, level=1):
+        super().__init__()
         self.set_level(level)
 
     def set_level(self, level):
@@ -126,6 +137,7 @@ class mirror_shield(activated_shield_module):
 
 class blast_shield(activated_shield_module):
     def __init__(self, level=1):
+        super().__init__()
         self.set_level(level)
 
     def set_level(self, level):
@@ -150,6 +162,7 @@ class blast_shield(activated_shield_module):
 
 class area_shield(activated_shield_module):
     def __init__(self, level=1):
+        super().__init__()
         self.set_level(level)
 
     def set_level(self, level):

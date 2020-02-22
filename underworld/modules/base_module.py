@@ -40,4 +40,7 @@ class activated_module(base_module):
             self.time += dt
 
     def activate(self):
-        self.activated = True
+        activate = not self.activated and not self.on_cooldown
+        if activate:
+            self.activated = True
+        return activate
