@@ -9,6 +9,8 @@ class base_module:
 
     def update(self): pass
 
+    def register(self, *_): pass
+
 
 class passive_module(base_module):
     pass
@@ -18,7 +20,6 @@ class activated_module(base_module):
     def __init__(self):
         super().__init__()
         self.time = 0.0
-        self.cooldown = 0.0
         self.duration = 0.0
         self.activated = False
         self.on_cooldown = False
@@ -44,3 +45,8 @@ class activated_module(base_module):
         if activate:
             self.activated = True
         return activate
+
+    def deactivate(self):
+        self.activated = False
+        self.on_cooldowm = True
+        self.time = 0.0

@@ -133,7 +133,7 @@ class salvage(passive_support_module):
         global_event_manager.register('sector_death', self.heal_owner)
 
     def heal_owner(self, payload):
-        if payload.get('sector', None) is not None:
+        if payload.get('sector', None) is not None and payload.get('unit', None) is not self:
             self.owner.hull = min(self.owner.hull + self.repair_percentage * self.owner.max_hull, self.owner.max_hull)
 
 

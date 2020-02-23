@@ -25,6 +25,7 @@ class battleship(base_unit):
         if isinstance(module, support_module):
             if len(self.support_slots) < self.level - 1 and module not in self.support_slots:
                 self.support_slots.append(module)
+        module.register(self)
 
     def clear(self):
         self.weapon_slot = weak_battery
