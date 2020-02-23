@@ -1,3 +1,4 @@
+import math
 from underworld.event_manager.event_manager import global_event_manager
 from underworld.modules import *
 
@@ -8,8 +9,10 @@ class base_unit:
         return cls.__name__
 
     def __init__(self):
-        self.team = None
+        self.position = [0.0, 0.0]
+        self.team = []
         self.queued_damage = 0.0
+        self.queued_shield_damage = 0.0
         self.time = 0.0
         self.targets = {}
         self.targeted_by = []
@@ -20,6 +23,9 @@ class base_unit:
 
     def __str__(self):
         return f'{self.get_class_name()}::{self.name}'
+
+    def distance_to(self, unit):
+        return math.sqrt((unit.position[0] - self.position[0])**2 + (unit.position[1] - self.position[1])**2 )
 
     @property
     def weapon(self):
@@ -58,13 +64,23 @@ class base_unit:
                     callback(self)
 
     def queue_damage(self, damage):
-        self.queued_damage += damage
+        for t in self.team:
+            if damage > 0.0 and t is not self:
+                # check distance!
+                if isinstance(t.shield_slot, area_shield_module) and t.queued_shield_damage < t.shield:
+                    t.queued_shield_damage, damage = min(t.shield, t.queued_shield_damage + damage), max(0.0, damage - (t.shield - t.queued_shield_damage))
+        if damage > 0.0 and self.shield_slot is not None and self.queued_shield_damage < self.shield:
+            self.queued_shield_damage, damage = min(self.shield, self.queued_shield_damage + damage), max(0.0, damage - (self.shield - self.queued_shield_damage))
+
+        if damage > 0.0:
+            self.queued_damage += damage
 
     def apply_damage(self):
-        if self.shield_slot is not None and self.shield_slot.strength > 0:
-            self.shield_slot.strength, self.queued_damage = max(0.0, self.shield - self.queued_damage), max(0.0, self.queued_damage - self.shield)
+        if self.shield_slot is not None and self.queued_shield_damage:
+            self.shield_slot.strength -= self.queued_shield_damage
         self.hull -= self.queued_damage
         self.queued_damage = 0.0
+        self.queued_shield_damage = 0.0
         if self.hull <= 0:
             global_event_manager.notify(self.time, 'sector_death', {'sector': 1, 'unit': self})
 

@@ -1,5 +1,7 @@
 from underworld.event_manager.event_manager import global_event_manager
+from underworld.damage import *
 from underworld.modules import *
+
 
 class weapon_module(passive_module):
     def dps_after_time(self, time):
@@ -9,7 +11,7 @@ class weapon_module(passive_module):
         return self.max_damage
 
 
-class weak_battery(weapon_module):
+class weak_battery(weapon_module, direct_damage):
     def __init__(self, *_):
         self.level = 1
         self.damage = self.max_damage = 80
@@ -19,7 +21,7 @@ class weak_battery(weapon_module):
         return self.damage * time
 
 
-class battery(weapon_module):
+class battery(weapon_module, direct_damage):
     def __init__(self, level=1):
         self.set_level(level)
 
@@ -44,7 +46,7 @@ class battery(weapon_module):
         return self.damage * time 
 
 
-class laser(weapon_module):
+class laser(weapon_module, direct_damage):
     def __init__(self, level=1):
         self.set_level(level)
 
@@ -68,7 +70,7 @@ class laser(weapon_module):
         return self.damage * time + 0.5 * time * time * (self.max_damage - self.damage) / 45.0 + max(0.0, time - 45.0) * self.max_damage
 
 
-class mass_battery(weapon_module):
+class mass_battery(weapon_module, direct_damage):
     def __init__(self, level=1):
         self.set_level(level)
 
@@ -92,7 +94,7 @@ class mass_battery(weapon_module):
         return self.damage * time 
 
 
-class dual_laser(weapon_module):
+class dual_laser(weapon_module, direct_damage):
     def __init__(self, level=1):
         self.set_level(level)
 
@@ -118,7 +120,7 @@ class dual_laser(weapon_module):
         return self.damage * time + 0.5 * time * time * (self.max_damage - self.damage) / 45.0 + max(0.0, time - 45.0) * self.max_damage
 
 
-class barrage(weapon_module):
+class barrage(weapon_module, direct_damage):
     def __init__(self, level=1):
         self.set_level(level)
 
@@ -142,7 +144,7 @@ class barrage(weapon_module):
         return (self.damage + self.dmg_per_enemy * kwargs.get('enemies_in_sector', 0)) * time
 
 
-class dart_launcher(weapon_module):
+class dart_launcher(weapon_module, direct_damage):
     def __init__(self, level=1):
         self.set_level(level)
 
@@ -167,7 +169,7 @@ class dart_launcher(weapon_module):
         return self.damage * (time // 10.0)
 
 
-class guardian_battery(weapon_module):
+class guardian_battery(weapon_module, direct_damage):
     def __init__(self):
         self.damage = self.max_damage = 60
         self.max_targets = 1
@@ -176,7 +178,7 @@ class guardian_battery(weapon_module):
         return self.damage * time 
 
 
-class colossus_laser(weapon_module):
+class colossus_laser(weapon_module, direct_damage):
     def __init__(self):
         self.damage = 110
         self.max_damage = 270
@@ -186,7 +188,7 @@ class colossus_laser(weapon_module):
         return self.damage * time + 0.5 * time * time * (self.max_damage - self.damage) / 45.0 + max(0.0, time - 45.0) * self.max_damage
 
 
-class ghost_battery(weapon_module):
+class ghost_battery(weapon_module, direct_damage):
     def __init__(self):
         self.damage = self.max_damage = 140
         self.max_targets = 1
@@ -195,7 +197,7 @@ class ghost_battery(weapon_module):
         return self.damage * time 
 
 
-class weak_cerberus_base_battery(weapon_module):
+class weak_cerberus_base_battery(weapon_module, direct_damage):
     def __init__(self):
         self.damage = self.max_damage = 100
         self.max_targets = 1
@@ -204,7 +206,7 @@ class weak_cerberus_base_battery(weapon_module):
         return self.damage * time 
 
 
-class cerberus_base_battery(weapon_module):
+class cerberus_base_battery(weapon_module, direct_damage):
     def __init__(self):
         self.damage = self.max_damage = 140
         self.max_targets = 1
@@ -213,7 +215,7 @@ class cerberus_base_battery(weapon_module):
         return self.damage * time 
 
 
-class strong_cerberus_base_battery(weapon_module):
+class strong_cerberus_base_battery(weapon_module, direct_damage):
     def __init__(self):
         self.damage = self.max_damage = 200
         self.max_targets = 1
@@ -222,7 +224,7 @@ class strong_cerberus_base_battery(weapon_module):
         return self.damage * time 
 
 
-class dart_barrage(weapon_module):
+class dart_barrage(weapon_module, direct_damage):
     def __init__(self):
         self.damage = self.max_damage = 200
         self.max_targets = 1
