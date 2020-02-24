@@ -1,6 +1,6 @@
 from underworld.units.base_unit import base_unit
-from underworld.traits import *
 from underworld.modules import *
+from underworld.traits import *
 
 
 class battleship(base_unit, salvageable):

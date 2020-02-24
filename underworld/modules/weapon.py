@@ -1,6 +1,6 @@
-from underworld.event_manager.event_manager import global_event_manager
 from underworld.damage import *
 from underworld.modules import *
+from underworld.traits import *
 
 
 class weapon_module(base_module):

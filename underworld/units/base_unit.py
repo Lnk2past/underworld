@@ -1,4 +1,5 @@
 import math
+
 from underworld.event_manager.event_manager import global_event_manager
 from underworld.modules import *
 
@@ -105,7 +106,7 @@ class base_unit:
         if payload.get('unit', None) in self.targets:
             del self.targets[payload['unit']]
 
-    def trigger_on(self, condition, callback):
+    def set_trigger(self, condition, callback):
         if condition not in self.triggers:
             self.triggers[condition] = []
         self.triggers[condition].append(callback)

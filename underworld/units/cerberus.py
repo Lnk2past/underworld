@@ -2,8 +2,8 @@ from underworld.event_manager.event_manager import global_event_manager
 from underworld.event_manager.triggers import *
 from underworld.units.base_unit import base_unit
 from underworld.units.other import bomber_rocket_rocket
-from underworld.traits import *
 from underworld.modules import *
+from underworld.traits import *
 
 
 class sentinel(base_unit, salvageable):
@@ -65,7 +65,7 @@ class bomber(base_unit, salvageable):
         self.shield_slot = None
         self.support_slots = []
         self.weapon_slot.register(self)
-        self.trigger_on(enemy_in_neighboring_sector(), self.weapon_slot.activate)
+        self.set_trigger(enemy_in_neighboring_sector(), self.weapon_slot.activate)
 
     def spawn_bomber_rocket(self):
         brr = bomber_rocket_rocket()

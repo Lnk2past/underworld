@@ -1,5 +1,4 @@
 from underworld.event_manager.event_manager import global_event_manager
-import underworld.utils
 
 
 def simulate_battle(battle_sector, corporation_1, corporation_2):

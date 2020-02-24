@@ -8,13 +8,13 @@ class base_module:
         self.level = level
 
     def update(self, _): pass
-
     def register(self, *_): pass
+    def activate(self): pass
+    def deactivate(self): pass
 
 
 class passive_module(base_module):
-    def activate(self): pass
-    def deactivate(self): pass
+    pass
 
 
 class activated_module(base_module):
