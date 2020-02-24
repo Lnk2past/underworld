@@ -1,8 +1,9 @@
 from underworld.units.base_unit import base_unit
+from underworld.traits import *
 from underworld.modules import *
 
 
-class battleship(base_unit):
+class battleship(base_unit, salvageable):
     def __init__(self, level=1, *modules, name=None):
         super().__init__()
         if level < 1 or level > 6:
@@ -13,7 +14,7 @@ class battleship(base_unit):
         self.weapon_slot = weak_battery
         self.shield_slot = None
         self.support_slots = []
-        self._set_level(level)
+        self.set_level(level)
         for module in modules:
             self.set(module)
 
@@ -32,7 +33,7 @@ class battleship(base_unit):
         self.shield_slot = None
         self.support_slots = []
 
-    def _set_level(self, level):
+    def set_level(self, level):
         if level == 1:
             self.hull = self.max_hull = 4000.0
             self.hydrogen = 2.8

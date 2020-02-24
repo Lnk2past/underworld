@@ -3,7 +3,7 @@ from underworld.damage import *
 from underworld.modules import *
 
 
-class weapon_module(passive_module):
+class weapon_module(base_module):
     def dps_after_time(self, time):
         if time < 45.0:
             r = (self.max_damage - self.damage) / 45.0
@@ -186,6 +186,24 @@ class colossus_laser(weapon_module, direct_damage):
 
     def damage_applied(self, time, **kwargs):
         return self.damage * time + 0.5 * time * time * (self.max_damage - self.damage) / 45.0 + max(0.0, time - 45.0) * self.max_damage
+
+
+class bomber_rocket(weapon_module, activated_module):
+    def __init__(self):
+        super().__init__()
+        self.max_targets = 1
+        self.cooldown = 20.0
+        self.damage = self.max_damage = 0.0
+
+    def register(self, entity):
+        self.owner = entity
+
+    def damage_applied(self, time, **kwargs):
+        return 0.0
+
+    def activate(self, *_):
+        if super().activate():
+            self.owner.spawn_bomber_rocket()
 
 
 class ghost_battery(weapon_module, direct_damage):

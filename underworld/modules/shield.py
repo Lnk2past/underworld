@@ -2,10 +2,6 @@ from underworld.event_manager.event_manager import global_event_manager
 from underworld.modules import *
 
 
-def set_shield_strenth(self, unit):
-    unit.strength = unit.max_strength
-
-
 class shield_module():
     pass
 

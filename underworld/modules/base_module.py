@@ -7,13 +7,14 @@ class base_module:
             raise RuntimeError(f'Module {level} needs to be between 1 and 12!')
         self.level = level
 
-    def update(self): pass
+    def update(self, _): pass
 
     def register(self, *_): pass
 
 
 class passive_module(base_module):
-    pass
+    def activate(self): pass
+    def deactivate(self): pass
 
 
 class activated_module(base_module):
@@ -25,19 +26,16 @@ class activated_module(base_module):
         self.on_cooldown = False
 
     def update(self, dt):
-        if self.time >= self.duration:
+        if self.activated and self.time >= self.duration:
             self.activated = False
             self.on_cooldown = True
             self.time = 0.0
 
-        if self.time >= self.cooldown:
+        elif self.on_cooldown and self.time >= self.cooldown:
             self.on_cooldown = False
             self.time = 0.0
 
-        if self.on_cooldown:
-            self.time += dt
-
-        if self.activated:
+        else:
             self.time += dt
 
     def activate(self):
@@ -48,5 +46,5 @@ class activated_module(base_module):
 
     def deactivate(self):
         self.activated = False
-        self.on_cooldowm = True
+        self.on_cooldown = True
         self.time = 0.0

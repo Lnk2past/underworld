@@ -10,7 +10,7 @@ class base_unit:
 
     def __init__(self):
         self.position = [0.0, 0.0]
-        self.team = []
+        self.corporation = []
         self.queued_damage = 0.0
         self.queued_shield_damage = 0.0
         self.time = 0.0
@@ -58,13 +58,15 @@ class base_unit:
             dps = self.weapon_slot.dps_after_time(self.targets[t])
             t.queue_damage(dps * dt)
             self.targets[t] += dt
-        for condition in self.triggers:
-            if condition(self):
-                for callback in self.triggers[condition]:
-                    callback(self)
+        if self.weapon_slot is not None:
+            self.weapon_slot.update(dt)
+        if self.shield_slot is not None:
+            self.shield_slot.update(dt)
+        for support_slot in self.support_slots:
+            support_slot.update(dt)
 
     def queue_damage(self, damage):
-        for t in self.team:
+        for t in self.corporation:
             if damage > 0.0 and t is not self:
                 # check distance!
                 if isinstance(t.shield_slot, area_shield_module) and t.queued_shield_damage < t.shield:
@@ -81,8 +83,18 @@ class base_unit:
         self.hull -= self.queued_damage
         self.queued_damage = 0.0
         self.queued_shield_damage = 0.0
+
+    def finalize(self):
         if self.hull <= 0:
             global_event_manager.notify(self.time, 'sector_death', {'sector': 1, 'unit': self})
+        if self.shield <= 0 and isinstance(self.shield_slot, activated_module) and self.shield_slot.activated:
+            self.shield_slot.deactivate()
+        for condition in self.triggers:
+            if condition(self):
+                for callback in self.triggers[condition]:
+                    if callback(self):
+                        # print(self.time, self.name, 'successful activation')
+                        pass
 
     def target(self, target):
         if target not in self.targets:

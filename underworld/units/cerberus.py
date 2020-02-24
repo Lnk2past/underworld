@@ -1,9 +1,12 @@
 from underworld.event_manager.event_manager import global_event_manager
+from underworld.event_manager.triggers import *
 from underworld.units.base_unit import base_unit
+from underworld.units.other import bomber_rocket_rocket
+from underworld.traits import *
 from underworld.modules import *
 
 
-class sentinel(base_unit):
+class sentinel(base_unit, salvageable):
     def __init__(self, name=None):
         super().__init__()
         self.name = self.get_class_name() if name is None else name
@@ -13,7 +16,7 @@ class sentinel(base_unit):
         self.support_slots = []
 
 
-class guardian(base_unit):
+class guardian(base_unit, salvageable):
     def __init__(self, name=None):
         super().__init__()
         self.name = self.get_class_name() if name is None else name
@@ -23,7 +26,7 @@ class guardian(base_unit):
         self.support_slots = []
 
 
-class interceptor(base_unit):
+class interceptor(base_unit, salvageable):
     def __init__(self, name=None):
         super().__init__()
         self.name = self.get_class_name() if name is None else name
@@ -33,7 +36,7 @@ class interceptor(base_unit):
         self.support_slots = []
 
 
-class colossus(base_unit):
+class colossus(base_unit, salvageable):
     def __init__(self, name=None):
         super().__init__()
         self.name = self.get_class_name() if name is None else name
@@ -44,24 +47,34 @@ class colossus(base_unit):
         self.support_slots[0].register(self)
 
 
-class destroyer(base_unit):
+class destroyer(base_unit, salvageable):
     def __init__(self, name=None):
         super().__init__()
         self.name = self.get_class_name() if name is None else name
         self.hull = self.max_hull = 10000.0
-        self.shield = 0.0
+        self.shield_slot = None
         self.support_slots = []
 
 
-class bomber(base_unit):
+class bomber(base_unit, salvageable):
     def __init__(self, name=None):
         super().__init__()
         self.name = self.get_class_name() if name is None else name
         self.hull = self.max_hull = 48000.0
+        self.weapon_slot = bomber_rocket()
+        self.shield_slot = None
         self.support_slots = []
+        self.weapon_slot.register(self)
+        self.trigger_on(enemy_in_neighboring_sector(), self.weapon_slot.activate)
+
+    def spawn_bomber_rocket(self):
+        brr = bomber_rocket_rocket()
+        brr.time = self.time
+        brr.corporation = self.corporation
+        self.corporation.add(brr)
 
 
-class phoenix(base_unit):
+class phoenix(base_unit, salvageable):
     def __init__(self, name=None):
         super().__init__()
         self.name = self.get_class_name() if name is None else name
@@ -76,9 +89,9 @@ class phoenix(base_unit):
             for i in range(3):
                 s = sentinel()
                 s.time = self.time
-                self.team.append(s)
+                self.corporation.append(s)
 
-class storm(base_unit):
+class storm(base_unit, salvageable):
     def __init__(self, name=None):
         super().__init__()
         self.name = self.get_class_name() if name is None else name
@@ -88,7 +101,7 @@ class storm(base_unit):
         self.support_slots = []
 
 
-class ghost(base_unit):
+class ghost(base_unit, salvageable):
     def __init__(self, name=None):
         super().__init__()
         self.name = self.get_class_name() if name is None else name
@@ -98,7 +111,7 @@ class ghost(base_unit):
         self.support_slots = []
 
 
-class weak_cerberus_base(base_unit):
+class weak_cerberus_base(base_unit, salvageable):
     def __init__(self, name=None):
         super().__init__()
         self.name = self.get_class_name() if name is None else name
@@ -108,7 +121,7 @@ class weak_cerberus_base(base_unit):
         self.support_slots = []
 
 
-class cerberus_base(base_unit):
+class cerberus_base(base_unit, salvageable):
     def __init__(self, name=None):
         super().__init__()
         self.name = self.get_class_name() if name is None else name
@@ -118,7 +131,7 @@ class cerberus_base(base_unit):
         self.support_slots = []
 
 
-class strong_cerberus_base(base_unit):
+class strong_cerberus_base(base_unit, salvageable):
     def __init__(self, name=None):
         super().__init__()
         self.name = self.get_class_name() if name is None else name
