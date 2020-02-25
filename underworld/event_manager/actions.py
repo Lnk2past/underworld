@@ -1,6 +1,10 @@
 from underworld.corporation import all_corporations
 
 
+def remove_from_corporation(s):
+    s.corporation.remove(s)
+
+
 def activate_shield(s):
     return s.shield_slot.activate()
 

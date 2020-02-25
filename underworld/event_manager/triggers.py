@@ -1,19 +1,17 @@
-def death():
-    def wrapper(s):
-        return s.hull <= 0.0
-    return wrapper
+class trigger:
+    def __init__(self, condition):
+        self.condition = condition
+        self.params = {}
 
+    def __call__(self, x):
+        return self.condition(x, **self.params)
 
-def hull_percentage(threshold, other=None):
-    def wrapper(s):
-        if other is not None:
-            return other.hull < threshold * other.max_hull
-        return s.hull < threshold * s.max_hull
-    return wrapper
+    def param(self, k, v):
+        self.params[k] = v
+        return self
 
+death = trigger(lambda ship, **params: ship.hull <= 0.0)
 
-def enemy_in_neighboring_sector():
-    def wrapper(s):
-        return True
-    return wrapper
+hull_percentage = trigger(lambda ship, **params: ship.hull < params['threshold'] * ship.max_hull)
 
+enemy_in_neighboring_sector = trigger(lambda x, **params: True)

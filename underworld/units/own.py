@@ -12,8 +12,6 @@ class battleship(base_unit, salvageable):
         self.level = level
         self.speed = 600.0
         self.weapon_slot = weak_battery
-        self.shield_slot = None
-        self.support_slots = []
         self.set_level(level)
         for module in modules:
             self.set(module)

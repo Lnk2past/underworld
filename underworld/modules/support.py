@@ -136,7 +136,7 @@ class salvage(passive_support_module):
     def heal_owner(self, payload):
         sector = payload.get('sector', None)
         unit = payload.get('unit', None)
-        if sector is not None and isinstance(unit, salvageable):
+        if sector is not None and isinstance(unit, salvageable) and unit is not self.owner:
             self.owner.hull = min(self.owner.hull + self.repair_percentage * self.owner.max_hull, self.owner.max_hull)
 
 

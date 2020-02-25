@@ -11,14 +11,6 @@ def simulate_battle(battle_sector, corporation_1, corporation_2):
     for u in corporation_2:
         u.corporation = corporation_2
 
-    def remove_unit(payload):
-        if payload.get('unit', None) in corporation_1:
-            corporation_1.remove(payload['unit'])
-        if payload.get('unit', None) in corporation_2:
-            corporation_2.remove(payload['unit'])
-
-    global_event_manager.register('sector_death', remove_unit)
-
     while corporation_1.members and corporation_2.members:
         for u in corporation_1:
             if u.weapon_slot is not None:

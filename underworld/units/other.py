@@ -29,10 +29,7 @@ class bomber_rocket_rocket(base_unit):
         self.explosion = 4000.0
         self.neutralized = 1250.0
         self.neutralized_range = 80.0
-        self.weapon_slot = None
-        self.shield_slot = None
-        self.support_slots = []
-        self.set_trigger(death(), neutralized)
+        self.set_trigger(death, neutralized)
 
 class ghost_dart_launcher_rocket(base_unit):
     pass

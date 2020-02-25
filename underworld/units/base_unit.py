@@ -1,6 +1,8 @@
 import math
 
 from underworld.event_manager.event_manager import global_event_manager
+from underworld.event_manager.actions import *
+from underworld.event_manager.triggers import *
 from underworld.modules import *
 
 
@@ -10,14 +12,17 @@ class base_unit:
         return cls.__name__
 
     def __init__(self):
+        self.weapon_slot = None
+        self.shield_slot = None
+        self.support_slots = []
         self.position = [0.0, 0.0]
-        self.corporation = []
         self.queued_damage = 0.0
         self.queued_shield_damage = 0.0
         self.time = 0.0
         self.targets = {}
         self.targeted_by = []
         self.triggers = {}
+        self.set_trigger(death, remove_from_corporation)
 
     def __repr__(self):
         return str(self)
@@ -94,7 +99,6 @@ class base_unit:
             if condition(self):
                 for callback in self.triggers[condition]:
                     if callback(self):
-                        # print(self.time, self.name, 'successful activation')
                         pass
 
     def target(self, target):
