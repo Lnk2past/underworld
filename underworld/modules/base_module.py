@@ -27,9 +27,7 @@ class activated_module(base_module):
 
     def update(self, dt):
         if self.activated and self.time >= self.duration:
-            self.activated = False
-            self.on_cooldown = True
-            self.time = 0.0
+            self.deactivate()
 
         elif self.on_cooldown and self.time >= self.cooldown:
             self.on_cooldown = False
@@ -38,9 +36,10 @@ class activated_module(base_module):
         else:
             self.time += dt
 
-    def activate(self):
+    def activate(self, *args):
         activate = not self.activated and not self.on_cooldown
         if activate:
+            self.time = 0.0
             self.activated = True
         return activate
 

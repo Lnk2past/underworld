@@ -1,4 +1,6 @@
 from underworld.event_manager.event_manager import global_event_manager
+from underworld.event_manager.actions import *
+from underworld.event_manager.triggers import *
 from underworld.modules import *
 from underworld.traits import *
 
@@ -111,8 +113,6 @@ class alpha_rocket(activated_support_module):
 class salvage(passive_support_module):
     def __init__(self, level):
         self.set_level(level)
-        self.level = level
-        self.is_activated = False
 
     def set_level(self, level):
         super().set_level(level)
@@ -145,11 +145,9 @@ class suppress(activated_support_module):
         self.set_level(level)
 
 
-
 class destiny(activated_support_module):
     def __init__(self, level):
         self.set_level(level)
-
 
 
 class barrier(activated_support_module):
@@ -157,11 +155,35 @@ class barrier(activated_support_module):
         self.set_level(level)
 
 
-
-class vengeance(passive_support_module):
+class vengeance(activated_support_module):
     def __init__(self, level):
+        super().__init__()
         self.set_level(level)
+        self.duration = 5.0
+        self.cooldown = 300.0
 
+    def set_level(self, level):
+        super().set_level(level)
+        if level == 1:  self.damage, self.range, self.hydrogen = [ 6000.0, 100.0,  2.4]
+        if level == 2:  self.damage, self.range, self.hydrogen = [ 7000.0, 120.0,  6.2]
+        if level == 3:  self.damage, self.range, self.hydrogen = [ 8000.0, 130.0, 10.0]
+        if level == 4:  self.damage, self.range, self.hydrogen = [ 9000.0, 140.0, 13.6]
+        if level == 5:  self.damage, self.range, self.hydrogen = [10000.0, 150.0, 17.4]
+        if level == 6:  self.damage, self.range, self.hydrogen = [12000.0, 160.0, 21.2]
+        if level == 7:  self.damage, self.range, self.hydrogen = [14000.0, 180.0, 25.0]
+        if level == 8:  self.damage, self.range, self.hydrogen = [16000.0, 200.0, 28.6]
+        if level == 9:  self.damage, self.range, self.hydrogen = [18000.0, 225.0, 32.4]
+        if level == 10: self.damage, self.range, self.hydrogen = [20000.0, 250.0, 36.2]
+        if level == 11: self.damage, self.range, self.hydrogen = [22000.0, 275.0, 38.0]
+        if level == 12: self.damage, self.range, self.hydrogen = [24000.0, 300.0, 40.0]
+
+    def register(self, entity):
+        self.owner = entity
+        self.owner.set_trigger(hull_strength.param('strength', 2000), self.activate)
+
+    def deactivate(self):
+        super().deactivate()
+        vengeanced(self.owner, self.range, self.damage)
 
 
 class delta_rocket(activated_support_module):
@@ -169,11 +191,9 @@ class delta_rocket(activated_support_module):
         self.set_level(level)
 
 
-
 class leap(activated_support_module):
     def __init__(self, level):
         self.set_level(level)
-
 
 
 class bond(activated_support_module):
@@ -181,17 +201,14 @@ class bond(activated_support_module):
         self.set_level(level)
 
 
-
 class alpha_drone(activated_support_module):
     def __init__(self, level):
         self.set_level(level)
 
 
-
 class suspend(activated_support_module):
     def __init__(self, level):
         self.set_level(level)
-
 
 
 class omega_rocket(activated_support_module):

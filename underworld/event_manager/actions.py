@@ -16,3 +16,9 @@ def neutralized(s):
                 if s.distance_to(member) < s.neutralized_range:
                     member.queue_damage(s.neutralized)
 
+def vengeanced(s, range, damage):
+    for corporation in all_corporations:
+        if corporation is not s.corporation:
+            for member in corporation:
+                if s.distance_to(member) < range:
+                    member.queue_damage(damage)
