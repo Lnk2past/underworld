@@ -20,4 +20,7 @@ hull_strength = trigger(lambda ship, **params: ship.hull < params['strength'])
 hull_percentage = trigger(lambda ship, **params: ship.hull < params['threshold'] * ship.max_hull)
 
 
+other_hull_percentage = trigger(lambda _, **params: params['ship'].hull < params['threshold'] * params['ship'].max_hull)
+
+
 enemy_in_neighboring_sector = trigger(lambda x, **params: True)

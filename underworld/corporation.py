@@ -7,10 +7,11 @@ class corporation:
         all_corporations.append(self)
 
     def add(self, member):
-        if isinstance(member, list):
-            self.members.extend(member)
-        else:
-            self.members.append(member)
+        if not isinstance(member, list):
+            member = [member,]
+        for m in member:
+            self.members.append(m)
+            m.corporation = self
 
     def remove(self, member):
         self.members.remove(member)
